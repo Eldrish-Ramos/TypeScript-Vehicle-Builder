@@ -295,7 +295,7 @@ class Cli {
       .then((answers) => {
         // TODO: check if the selected vehicle is the truck
         
-        if(Truck)
+        if(answers.type == Truck)
         {
           // TODO: if it is, log that the truck cannot tow itself then perform actions on the truck to allow the user to select another action
           console.log("A truck can NOT tow itself!");
@@ -303,7 +303,7 @@ class Cli {
         else 
         {
           // TODO: if it is not, tow the selected vehicle then perform actions on the truck to allow the user to select another action
-          selectedTruck.tow(answers.vehicleToTow);
+          selectedTruck.tow(answers.value);
           this.performActions();
         }
       });
@@ -395,15 +395,15 @@ class Cli {
           // TODO: add statements to perform the tow action only if the selected vehicle is a truck. 
           // Call the findVehicleToTow method to find a vehicle to tow and pass the selected truck as an argument. 
           // After calling the findVehicleToTow method, you will need to return to avoid instantly calling the performActions method again since findVehicleToTow is asynchronous.
-        } else if(answers.action === 'Tow') {
+        } else if(answers.action === 'Tow') 
+        {
           for(let i = 0; i < this.vehicles.length; i++)
           {
-            if (typeof this.selectedVehicleVin === 'Truck') {
+            if (answers.vehicleType === 'Truck')
             {
-              
+              this.findVehicleToTow(answers.vehicle); return;
             }
           }
-
         } else if(answers.action === 'Wheelie') {
 
         }
