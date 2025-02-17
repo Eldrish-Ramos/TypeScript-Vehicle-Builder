@@ -293,15 +293,17 @@ class Cli {
         },
       ])
       .then((answers) => {
+        //checking if the vehicle we want to tow is the same as the chosen truck
         if (answers.vehicleToTow.vin === selectedTruck.vin) {
+          //if it is then the truck can NOT tow itself (that would be weird)
           console.log("The truck cannot tow itself.");
           this.performActions();
         } else {
+          //if it is, we take the chosen truck and we tow the vehicle of choice
           selectedTruck.tow(answers.vehicleToTow);
           console.log(`Towing vehicle with VIN: ${answers.vehicleToTow.vin}`);
           this.performActions();
         }
-
       });
   }
 
@@ -390,6 +392,7 @@ class Cli {
           }
           // Check if the selected vehicle is a truck
         } else if (answers.action === 'Tow') {
+          //different way of doing the same thing - seems to work, test with wheelie if other way doesnt work :)
           const selectedVehicle = this.vehicles.find(vehicle => vehicle.vin === this.selectedVehicleVin);
           if (selectedVehicle instanceof Truck) {
             // Call the findVehicleToTow method to find a vehicle to tow and pass the selected truck as an argument
@@ -401,6 +404,16 @@ class Cli {
         }
         // TODO: add statements to perform the tow action only if the selected vehicle is a truck. Call the findVehicleToTow method to find a vehicle to tow and pass the selected truck as an argument. After calling the findVehicleToTow method, you will need to return to avoid instantly calling the performActions method again since findVehicleToTow is asynchronous.
         // TODO: add statements to perform the wheelie action only if the selected vehicle is a motorbike
+        else if(answers.action === 'Wheelie') {
+          const selectedVehicle = this.vehicles.find(vehicle => vehicle.vin === this.selectedVehicleVin);
+          //checking if the chosen vehicle is a motoerbike object
+          if(selectedVehicle instanceof Motorbike) {
+            selectedVehicle.wheelie();
+          }
+          else {
+            console.log(`Only Motorbikes can perform a wheelie!`);
+          }
+        }
         else if (answers.action === 'Select or create another vehicle') {
           // start the cli to return to the initial prompt if the user wants to select or create another vehicle
           this.startCli();
